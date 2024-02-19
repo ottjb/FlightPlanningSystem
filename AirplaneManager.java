@@ -1,24 +1,30 @@
 import java.util.Vector;
 
 public class AirplaneManager {
-    public void addAirplane(Airplane airplane) {
-        
+    private Vector<Airplane> airplanes;
+
+    public AirplaneManager() {
+        this.airplanes = new Vector<Airplane>();
     }
 
-    public void deleteAirplane(Airplane airplane) {
-        
+    public void add(Airplane airplane) {
+
     }
 
-    public void editAirplane(Airplane airplane) {
-        
+    public void delete(Airplane airplane) {
+
     }
 
-    public void displayAirplane(Airplane airplane) {
-        
+    public void edit(Airplane airplane) {
+
     }
 
-    public Vector<Airplane> searchAirplanes(String search) {
-        
+    public void display(Airplane airplane) {
+
+    }
+
+    public Vector<Airplane> search(String search) {
+
         return new Vector<Airplane>();
     }
 }

@@ -1,10 +1,5 @@
 import java.util.Vector;
 
-/**
- * The Airport class represents an airport with properties such as ICAO identifier, name, latitude,
- * longitude, communication frequency, and fuel type, and provides methods to get and set these
- * properties, as well as find nearby airports.
- */
 public class Airport {
     private String ICAOIdentifier;
     private String name;
