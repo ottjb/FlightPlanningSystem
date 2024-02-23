@@ -8,16 +8,13 @@ import java.util.Comparator;
 
 public class FlightPlannerDemo extends JFrame {
 
-    private static final int numOfAirports = 20;
+    private static final int numOfAirports = 30;
     private static final int screenWidth = 512;
     private static final int screenHeight = 512;
     private static final Random r = new Random();
-    private static int generation = 0;
-    private static ArrayList<int[]> population = new ArrayList<int[]>();
 
     private JPanel bestRoutePanel;
     private static JPanel currentRoutePanel;
-    private JPanel linePanel;
 
     public FlightPlannerDemo() {
         setTitle("Flight Planner Demo");
@@ -28,7 +25,7 @@ public class FlightPlannerDemo extends JFrame {
         AirportPoints[] airportPointsList = new AirportPoints[numOfAirports];
         for (int i = 0; i < numOfAirports; i++) {
             airportPointsList[i] = new AirportPoints(r.nextInt(screenWidth - 50) + 25,
-                    r.nextInt(screenHeight / 2 - 50) + 25);
+                    r.nextInt(screenHeight - 75) + 25);
         }
 
         bestRoutePanel = new JPanel() {
@@ -47,18 +44,18 @@ public class FlightPlannerDemo extends JFrame {
                 g.setColor(Color.WHITE);
                 drawPoints(g, airportPointsList);
                 Graphics2D g2 = (Graphics2D) g.create();
-                g2.drawLine(0, 0, screenWidth, 0);
+                //g2.drawLine(0, 0, screenWidth, 0);
             }
         };
 
         bestRoutePanel.setLayout(new BorderLayout());
         currentRoutePanel.setLayout(new BorderLayout());
-        getContentPane().setLayout(new GridLayout(2, 1));
+        getContentPane().setLayout(new GridLayout(1, 1));
 
         bestRoutePanel.setBackground(Color.BLACK);
         currentRoutePanel.setBackground(Color.BLACK);
 
-        getContentPane().add(bestRoutePanel);
+        //getContentPane().add(bestRoutePanel);
         getContentPane().add(currentRoutePanel);
 
         setVisible(true);
@@ -73,21 +70,18 @@ public class FlightPlannerDemo extends JFrame {
 
         testPath2.generatePath(numOfAirports, airportPointsList);
 
-        System.out.println("Distance: " + testPath.calculateDistance());
-        System.out.println("Fitness: " + testPath.calculateFitness());
-
         bestRoutePanel.add(createPathPanel(testPath.path));
 
-        generation++;
-        Generation gen = new Generation(generation);
-        gen.generateRandomPopulation(numOfAirports, airportPointsList, 1000);
-        currentRoutePanel.add(createPathPanel(gen.highestFitnessPath.path));
-        gen.calcAverageFitness();
-
-        ArrayList<Path> topTenPercent = gen.getTopTenPercent();
-        for (int i = 0; i < topTenPercent.size(); i++) {
-            System.out.println((i + 1) + " Fitness: " + topTenPercent.get(i).calculateFitness());
+        Generation gen = new Generation();
+        gen.generateRandomPopulation(numOfAirports, airportPointsList, 100);
+        for (int i = 0; i < 100; i++) {
+            gen.generateNextGeneration();
+            // if(gen.highestFitnessPath.fitness == 0) {
+            //     System.out.println("No possible route found");
+            //     break;
+            // }
         }
+        currentRoutePanel.add(createPathPanel(gen.highestFitnessPath.path));
 
         repaint();
     }
@@ -192,7 +186,8 @@ class Path {
     }
 
     public double calculateFitness() {
-        fitness = (100 / this.calculateDistance()) / path.size();
+        fitness = 1 / (1 + this.calculateDistance());
+        //System.out.println("Fitness: " + fitness);
         return fitness;
     }
 
@@ -217,8 +212,8 @@ class Generation {
     int generation;
     Path highestFitnessPath;
 
-    public Generation(int generation) {
-        this.generation = generation;
+    public Generation() {
+        this.generation = 0;
     }
 
     public void addPath(Path path) {
@@ -226,17 +221,106 @@ class Generation {
     }
 
     public void generateRandomPopulation(int numOfAirports, AirportPoints[] airportPointsList, int size) {
+        generation++;
+        System.out.println("---Generation: " + generation + "---");
         for (int i = 0; i < size; i++) {
             Path p = new Path();
             p.generatePath(numOfAirports, airportPointsList);
             p.calculateFitness();
             population.add(p);
-            double highestFitness = 0;
-            if (p.calculateFitness() > highestFitness) {
-                highestFitness = p.calculateFitness();
-                highestFitnessPath = p;
+            // double highestFitness = -999;
+            // if (p.fitness > highestFitness) {
+            //     //System.out.println("here");
+            //     highestFitness = p.fitness;
+            //     highestFitnessPath = p;
+            // }
+        }
+        sortPopulation();
+        highestFitnessPath = population.get(population.size() - 1);
+        System.out.println("Highest Fitness: " + highestFitnessPath.fitness);
+        calcAverageFitness();
+    }
+
+    public void generateNextGeneration() {
+        Random r = new Random();
+        generation++;
+        System.out.println("---Generation: " + generation + "---");
+        ArrayList<Path> newPopulation = new ArrayList<Path>();
+        ArrayList<Path> topTenPercent = getTopTenPercent();
+        for (int i = 0; i < population.size(); i++) {
+            Path parent1 = topTenPercent.get(r.nextInt(topTenPercent.size()));
+            Path parent2 = topTenPercent.get(r.nextInt(topTenPercent.size()));
+            if (r.nextInt(2) == 0) {
+                Path child = crossover(parent1, parent2);
+                newPopulation.add(child);
+            } else {
+                if (r.nextInt(2) == 0) {
+                    Path child = mutate(parent1);
+                    newPopulation.add(child);
+                } else {
+                    Path child = mutate(parent2);
+                    newPopulation.add(child);
+                }
+            }
+            //Path child = crossover(parent1, parent2);
+            // double highestFitness = 0;
+            // if (child.calculateFitness() > highestFitness) {
+            //     highestFitness = child.calculateFitness();
+            //     highestFitnessPath = child;
+            // }
+        }
+        population = newPopulation;
+        sortPopulation();
+        highestFitnessPath = population.get(population.size() - 1);
+        System.out.println("Highest Fitness: " + highestFitnessPath.fitness);
+        calcAverageFitness();
+    }
+
+    public Path mutate(Path path) {
+        Random r = new Random();
+        int i = r.nextInt(path.path.size());
+        if (i == 0 || i == path.path.size() - 1) {
+            return path;
+        }
+        int j = r.nextInt(path.path.size());
+        if(j == 0 || j == path.path.size() - 1) {
+            return path;
+        }
+        AirportPoints temp = path.path.get(i);
+        path.path.set(i, path.path.get(j));
+        path.path.set(j, temp);
+        return path;
+    }
+
+    public Path crossover(Path parent1, Path parent2) {
+        Path child = new Path();
+        Random r = new Random();
+        int i = r.nextInt(2);
+        int childSize;
+        if(i == 0) {
+            childSize = parent1.path.size();
+        } else {
+            childSize = parent2.path.size();
+        }
+        child.path.add(parent1.path.get(0));
+        for (int j = 1; i < childSize; i++) {
+            r.nextInt(2);
+            if (i == 0) {
+                if (!child.path.contains(parent1.path.get(j))) {
+                    child.path.add(parent1.path.get(j));
+                } else {
+                    child.path.add(parent2.path.get(j));
+                }
+            } else {
+                if (!child.path.contains(parent2.path.get(j))) {
+                    child.path.add(parent2.path.get(j));
+                } else {
+                    child.path.add(parent1.path.get(j));
+                }
             }
         }
+        child.path.add(parent1.path.get(parent1.path.size() - 1));
+        return child;
     }
 
     public void calcAverageFitness() {
@@ -249,10 +333,13 @@ class Generation {
 
     public ArrayList<Path> getTopTenPercent() {
         ArrayList<Path> topTenPercent = new ArrayList<Path>();
-        Collections.sort(population, Comparator.comparingDouble(Path::calculateFitness).reversed());
-        for (int i = 0; i < population.size() / 10; i++) {
+        for (int i = population.size() - 1; i > population.size() * 0.9; i--) {
             topTenPercent.add(population.get(i));
         }
         return topTenPercent;
+    }
+
+    public void sortPopulation() {
+        Collections.sort(population, Comparator.comparingDouble(Path::calculateFitness));
     }
 }
