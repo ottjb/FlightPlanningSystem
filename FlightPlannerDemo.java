@@ -74,7 +74,7 @@ public class FlightPlannerDemo extends JFrame {
 
         Generation gen = new Generation();
         gen.generateRandomPopulation(numOfAirports, airportPointsList, 100);
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             gen.generateNextGeneration();
             // if(gen.highestFitnessPath.fitness == 0) {
             //     System.out.println("No possible route found");
