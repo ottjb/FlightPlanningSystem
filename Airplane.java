@@ -2,9 +2,9 @@ public class Airplane {
     private String make;
     private String model;
     private String type;
-    private int fuelTankSize;
-    private int fuelBurn;
-    private int airSpeed;
+    private double fuelTankSize;
+    private double fuelBurn;
+    private double airSpeed;
 
 
     // The `public Airplane()` constructor is a default constructor that initializes the instance
@@ -24,13 +24,13 @@ public class Airplane {
     // The `public Airplane(String make, String model, String type, int fuelTankSize, int fuelBurn, int
     // airSpeed)` constructor is a parameterized constructor that initializes the instance variables of
     // the `Airplane` class with the values passed as arguments.
-    public Airplane(String make, String model, String type, int fuelTankSize, int fuelBurn, int airSpeed) {
+    public Airplane(String make, String model, String type, String fuelTankSize, String fuelBurn, String airSpeed) {
         this.make = make;
         this.model = model;
         this.type = type;
-        this.fuelTankSize = fuelTankSize;
-        this.fuelBurn = fuelBurn;
-        this.airSpeed = airSpeed;
+        this.fuelTankSize = Double.parseDouble(fuelTankSize);
+        this.fuelBurn = Double.parseDouble(fuelBurn);
+        this.airSpeed = Double.parseDouble(airSpeed);
     }
 
     /**
@@ -57,21 +57,21 @@ public class Airplane {
     /**
      * @return The fuel tank size of the airplane.
      */
-    public int getFuelTankSize() {
+    public double getFuelTankSize() {
         return this.fuelTankSize;
     }
 
     /**
      * @return The fuel burn of the airplane.
      */
-    public int getFuelBurn() {
+    public double getFuelBurn() {
         return this.fuelBurn;
     }
 
     /**
      * @return The air speed of the airplane.
      */
-    public int getAirSpeed() {
+    public double getAirSpeed() {
         return this.airSpeed;
     }
 
@@ -97,23 +97,23 @@ public class Airplane {
     }
 
     /**
-     * @param fuelTankSize The "fuelTankSize" parameter is an int that represents the fuel tank size of an airplane.
+     * @param fuelTankSize The "fuelTankSize" parameter is a double that represents the fuel tank size of an airplane.
      */
-    public void setFuelTankSize(int fuelTankSize) {
+    public void setFuelTankSize(double fuelTankSize) {
         this.fuelTankSize = fuelTankSize;
     }
 
     /**
-     * @param fuelBurn The "fuelBurn" parameter is an int that represents the fuel burn of an airplane.
+     * @param fuelBurn The "fuelBurn" parameter is a double that represents the fuel burn of an airplane.
      */
-    public void setFuelBurn(int fuelBurn) {
+    public void setFuelBurn(double fuelBurn) {
         this.fuelBurn = fuelBurn;
     }
 
     /**
-     * @param airSpeed The "airSpeed" parameter is an int that represents the air speed of an airplane.
+     * @param airSpeed The "airSpeed" parameter is a double that represents the air speed of an airplane.
      */
-    public void setAirSpeed(int airSpeed) {
+    public void setAirSpeed(double airSpeed) {
         this.airSpeed = airSpeed;
     }
     

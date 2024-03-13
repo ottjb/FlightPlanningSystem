@@ -6,7 +6,7 @@ public class Airport {
     private double latitude;
     private double longitude;
     private double COMFrequency;
-    private String fuelType;
+    private String[] fuelTypes = new String[2];
     
     // The `public Airport()` constructor is a default constructor that initializes the properties of
     // the `Airport` object to default values. In this case, the default values are:
@@ -16,7 +16,8 @@ public class Airport {
         this.latitude = 0.0;
         this.longitude = 0.0;
         this.COMFrequency = 0.0;
-        this.fuelType = "Generic";
+        this.fuelTypes[0] = "Generic";
+        this.fuelTypes[1] = "Generic";
     }
 
     // The `public Airport(String ICAOIdentifier, String name, double latitude, double longitude,
@@ -24,13 +25,13 @@ public class Airport {
     // parameters representing the ICAO identifier, name, latitude, longitude, communication frequency,
     // and fuel type of an airport, and initializes the corresponding properties of the `Airport`
     // object with these values.
-    public Airport(String ICAOIdentifier, String name, double latitude, double longitude, double COMFrequency, String fuelType) {
+    public Airport(String ICAOIdentifier, String name, double latitude, double longitude, double COMFrequency, String[] fuelTypes) {
         this.ICAOIdentifier = ICAOIdentifier;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.COMFrequency = COMFrequency;
-        this.fuelType = fuelType;
+        this.fuelTypes = fuelTypes;
     }
 
     /**
@@ -71,8 +72,8 @@ public class Airport {
     /**
      * @return The current airport's fuel type.
      */
-    public String getFuelType() {
-        return this.fuelType;
+    public String[] getFuelType() {
+        return this.fuelTypes;
     }
 
     /**
@@ -113,8 +114,8 @@ public class Airport {
     /**
      * @param fuelType The current airport's fuel type.
      */
-    public void setFuelType(String fuelType) {
-        this.fuelType = fuelType;
+    public void setFuelType(String[] fuelTypes) {
+        this.fuelTypes = fuelTypes;
     }
 
     public Vector<Airport> findNearbyAirports(Airplane airplane) {
