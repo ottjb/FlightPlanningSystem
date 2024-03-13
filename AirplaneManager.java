@@ -36,7 +36,7 @@ public class AirplaneManager {
     }
 
     public void delete(Airplane airplane) {
-
+        this.airplanes.remove(airplane);
     }
 
     public void edit(Airplane airplane) {
@@ -44,7 +44,7 @@ public class AirplaneManager {
     }
 
     public void display(Airplane airplane) {
-
+        System.out.println(airplane.getMake() + " " + airplane.getModel() + " " + airplane.getType() + " " + airplane.getFuelTankSize() + " " + airplane.getFuelBurn() + " " + airplane.getAirSpeed());
     }
 
     // This is a test method, this will not be included in the final version
@@ -55,21 +55,26 @@ public class AirplaneManager {
     }
 
     public Vector<Airplane> search(String search) {
-
-        return new Vector<Airplane>();
+        Vector<Airplane> foundAirplanes = new Vector<Airplane>();
+        for (Airplane airplane : this.airplanes) {
+            if (airplane.getMake().contains(search) || airplane.getModel().contains(search) || airplane.getType().contains(search)) {
+                foundAirplanes.add(airplane);
+            }
+        }
+        return foundAirplanes;
     }
 
-    public void displayMenu() {
-        Scanner in = new Scanner(System.in);
-        Utility utility = new Utility();
-        System.out.println();
+    public void displayMenu(Utility u) {
+        System.out.println("--------------------------------");
         System.out.println("Airplane Management");
         System.out.println("1. Add an airplane");
         System.out.println("2. Delete an airplane");
         System.out.println("3. Edit an airplane");
         System.out.println("4. Display an airplane");
         System.out.println("5. Cancel");
-        int option = utility.getIntegerInput();
+        int option = u.getIntegerInput();
+        System.out.println("--------------------------------");
+        System.out.println();
 
         switch (option) {
             case 1:
@@ -79,16 +84,24 @@ public class AirplaneManager {
                 for (int i = 0; i < options.length; i++) {
                     System.out.println(options[i]);
                     if (i == 3 || i == 4 || i == 5) {
-                        inputs[i] = Double.toString(utility.getDoubleInput());
+                        inputs[i] = Double.toString(u.getDoubleInput());
                     } else {
-                        inputs[i] = utility.getStringInput();
+                        inputs[i] = u.getStringInput();
                     }
                 }
                 this.add(new Airplane(inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], inputs[5]));
-                this.displayAirplanes();
                 break;
             case 2:
-                System.out.println("Delete an airplane");
+                this.displayAirplanes();
+                Airplane[] airplanesToDelete = new Airplane[this.airplanes.size()];
+                for (int i = 0; i < this.airplanes.size(); i++) {
+                    System.out.println((i + 1) + ". " + this.airplanes.get(i).getMake() + " " + this.airplanes.get(i).getModel());
+                    airplanesToDelete[i] = this.airplanes.get(i);
+                }
+                System.out.println("Select or search an airplane to delete: ");
+                int deleteOption = u.getIntegerInput();
+                this.delete(airplanesToDelete[deleteOption - 1]);
+                this.displayAirplanes();
                 break;
             case 3:
                 System.out.println("Edit an airplane");
@@ -97,12 +110,10 @@ public class AirplaneManager {
                 System.out.println("Display an airplane");
                 break;
             case 5:
-                utility.close();
                 break;
             default:
                 System.out.println("Please select a valid option.");
                 break;
         }
-        in.close();
     }
 }

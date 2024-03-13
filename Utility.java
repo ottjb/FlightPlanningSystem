@@ -32,7 +32,12 @@ public class Utility {
         return input;
     }
 
+    public boolean isIn(String substring, String string) {
+        return string.contains(substring);
+    }
+
     public void close() {
+        System.out.println("closing");
         in.close();
     }
 }
