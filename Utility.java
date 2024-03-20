@@ -32,9 +32,14 @@ public class Utility {
         return input;
     }
 
-    public boolean isIn(String substring, String string) {
-        return string.contains(substring);
-    }
+    public boolean isNumeric(String str) { 
+        try {  
+            Double.parseDouble(str);  
+            return true;
+        } catch(NumberFormatException e){  
+            return false;  
+        }  
+      }
 
     public void close() {
         System.out.println("closing");

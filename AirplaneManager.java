@@ -99,8 +99,26 @@ public class AirplaneManager {
                     airplanesToDelete[i] = this.airplanes.get(i);
                 }
                 System.out.println("Select or search an airplane to delete: ");
-                int deleteOption = u.getIntegerInput();
-                this.delete(airplanesToDelete[deleteOption - 1]);
+                String deleteOption = u.getStringInput();
+                if (u.isNumeric(deleteOption)) {
+                    int deleteOptionNum = Integer.parseInt(deleteOption);
+                    this.delete(airplanesToDelete[deleteOptionNum - 1]);
+                } else {
+                    System.out.println("Searching for airplanes with the following criteria: " + deleteOption);
+                    Vector<Airplane> deleteSearchOptions = this.search(deleteOption);
+                    System.out.println(deleteSearchOptions.size() + " airplanes found.");
+                    if (deleteSearchOptions.size() == 1) {
+                        this.delete(deleteSearchOptions.get(0));
+                    } else {
+                        for (int i = 0; i < deleteSearchOptions.size(); i++) {
+                            System.out.println((i + 1) + ". " + deleteSearchOptions.get(i).getMake() + " " + deleteSearchOptions.get(i).getModel());
+                        }
+                        System.out.println("Select an airplane to delete from your search: ");
+                        int deleteOptionNum = u.getIntegerInput();
+                        this.delete(deleteSearchOptions.get(deleteOptionNum - 1));
+                    }
+                }
+                
                 this.displayAirplanes();
                 break;
             case 3:
