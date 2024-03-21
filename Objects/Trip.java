@@ -1,3 +1,4 @@
+package Objects;
 import java.util.Vector;
 
 public class Trip {
