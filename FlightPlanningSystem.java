@@ -8,7 +8,7 @@ public class FlightPlanningSystem {
     public static void main(String[] args) {
         FlightPlanningSystemGUI gui = new FlightPlanningSystemGUI();
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gui.setSize(500, 500);
+        gui.setSize(600, 600);
         gui.setVisible(true);
 
         System.out.println("Welcome to the Flight Planning System");
