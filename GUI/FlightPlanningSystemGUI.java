@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
 
 public class FlightPlanningSystemGUI extends JFrame implements ActionListener {
@@ -68,7 +69,6 @@ public class FlightPlanningSystemGUI extends JFrame implements ActionListener {
             jbt.addActionListener(this);
             mainMenuPanel.add(jbt);
         }
-
 
         // Airplane Manager Panel
         airplaneManagerPanel = new JPanel();
@@ -125,7 +125,10 @@ public class FlightPlanningSystemGUI extends JFrame implements ActionListener {
         }
         // Airplane Manager Buttons
         else if (e.getSource() == jbtAddAirplane) {
-            System.out.println("Add Airplane");
+            JPopupMenu popup = new JPopupMenu();
+            popup.add(new JButton("Add Airplane"));
+            popup.add(new JButton("Cancel"));
+            popup.show(this, this.getWidth() / 2, this.getHeight() / 2);
         } else if (e.getSource() == jbtDeleteAirplane) {
             System.out.println("Delete Airplane");
         } else if (e.getSource() == jbtEditAirplane) {
