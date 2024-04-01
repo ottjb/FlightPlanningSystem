@@ -1,18 +1,16 @@
 import javax.swing.JFrame;
 import javax.swing.JWindow;
 
-import GUI.FlightPlanningSystemGUI;
+import GUI.FlightPlanningSystemGUIV2;
+import Managers.AirplaneManager;
+import Managers.AirportManager;
+import Managers.Utility;
 
 public class FlightPlanningSystem {
     public static void main(String[] args) {
         AirplaneManager airplaneManager = new AirplaneManager();
         AirportManager airportManager = new AirportManager();
-        // JFrame gui = new JFrame();
-
-        // gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // gui.setSize(600, 600);
-        // gui.setTitle("Flight Planning System");
-        // gui.setVisible(true);
+        FlightPlanningSystemGUIV2 gui = new FlightPlanningSystemGUIV2();
 
         boolean running = true;
         int option;
