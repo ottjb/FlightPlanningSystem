@@ -68,6 +68,21 @@ public class AirplaneManager {
         return foundAirplanes;
     }
 
+    public void close() {
+        System.out.println("Closing Airplane Manager");
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("data/airplanes.txt"));
+            for (Airplane airplane : this.airplanes) {
+                writer.write(airplane.getMake() + "|" + airplane.getModel() + "|" + airplane.getType() + "|" + airplane.getFuelTankSize() + "|" + airplane.getFuelBurn() + "|" + airplane.getAirSpeed() + ";");
+                writer.newLine();
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
     public void displayMenu(Utility u) {
         System.out.println("--------------------------------");
         System.out.println("Airplane Management");

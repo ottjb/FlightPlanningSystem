@@ -4,6 +4,7 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 
 import javax.swing.Action;
@@ -17,9 +18,17 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import Managers.AirplaneManager;
+import Managers.AirportManager;
+import Objects.Airplane;
+import Objects.Airport;
+
 public class FlightPlanningSystemGUIV2 extends JFrame {
     private int screenHeight = 438;
     private int screenWidth = 615;
+
+    AirplaneManager airplaneManager;
+    AirportManager airportManager;
 
     Color sidebarBackgroundColor = new Color(0x4D4D4D);
     Color sidebarTextColor = new Color(0xFFFFFF);
@@ -71,6 +80,9 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         addAirplaneButton.setBorderPainted(false);
         addAirplaneButton.setBackground(sidebarBackgroundColor);
         addAirplaneButton.setForeground(sidebarTextColor);
+        addAirplaneButton.addActionListener(e -> {
+            tabbedPane.setSelectedIndex(2);
+        });
 
         editAirplaneButton = new JButton("Edit Airplane");
         editAirplaneButton.setHorizontalAlignment(JButton.LEFT);
@@ -106,9 +118,11 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
                 menuPanel.remove(deleteAirportButton);
                 menuPanel.remove(displayAirportButton);
                 airportManagerOpen = false;
+                //airportManager.close();
                 revalidate();
                 repaint();}
             if (!airplaneManagerOpen) {
+                airplaneManager = new AirplaneManager();
                 menuPanel.add(addAirplaneButton);
                 menuPanel.add(editAirplaneButton);
                 menuPanel.add(deleteAirplaneButton);
@@ -123,6 +137,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
                 menuPanel.remove(deleteAirplaneButton);
                 menuPanel.remove(displayAirplaneButton);
                 airplaneManagerOpen = false;
+                airplaneManager.close();
                 airportManagerButton.setBounds(0, 100, 132, 50);
                 revalidate();
                 repaint();
@@ -176,6 +191,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
                 menuPanel.remove(displayAirplaneButton);
                 airportManagerButton.setBounds(0, 100, 132, 50);
                 airplaneManagerOpen = false;
+                airplaneManager.close();
                 revalidate();
                 repaint();
             }
@@ -205,6 +221,12 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         JButton exitButton = new JButton("Exit");
         exitButton.setBounds(0, screenHeight - 87, 132, 50);
         exitButton.addActionListener(e -> {
+            if (airplaneManagerOpen) {
+                airplaneManager.close();
+            }
+            if (airportManagerOpen) {
+                //airportManager.close();
+            }
             System.exit(0);
         });
         exitButton.setBorderPainted(false);
@@ -231,6 +253,51 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         // flightPlannerPanel.add(arrivalField);
         flightPlanPanel.add(departureLabel);
         flightPlanPanel.add(arrivalLabel);
+
+        // Add Airplane Panel
+        JPanel addAirplanePanel = new JPanel();
+        addAirplanePanel.setLayout(null);
+        JLabel addAirplaneLabel = new JLabel("Add Airplane");
+        addAirplaneLabel.setBounds(50, 20, 200, 50);
+        JLabel airplaneMakeLabel = new JLabel("Airplane Make:");
+        airplaneMakeLabel.setBounds(50, 50, 200, 50);
+        JTextField airplaneMakeField = new JTextField();
+        airplaneMakeField.setBounds(50, 100, 180, 30);
+        JLabel airplaneModelLabel = new JLabel("Airplane Model:");
+        airplaneModelLabel.setBounds(50, 130, 200, 50);
+        JTextField airplaneModelField = new JTextField();
+        airplaneModelField.setBounds(50, 180, 180, 30);
+        JLabel airplaneTypeLabel = new JLabel("Airplane Type:");
+        airplaneTypeLabel.setBounds(50, 210, 200, 50);
+        JTextField airplaneTypeField = new JTextField();
+        airplaneTypeField.setBounds(50, 260, 180, 30);
+        JLabel fuelTankSizeLabel = new JLabel("Fuel Tank Size:");
+        fuelTankSizeLabel.setBounds(250, 50, 200, 50);
+        JTextField fuelTankSizeField = new JTextField();
+        fuelTankSizeField.setBounds(250, 100, 180, 30);
+        JLabel fuelBurnLabel = new JLabel("Fuel Burn:");
+        fuelBurnLabel.setBounds(250, 130, 200, 50);
+        JTextField fuelBurnField = new JTextField();
+        fuelBurnField.setBounds(250, 180, 180, 30);
+        JLabel airSpeedLabel = new JLabel("Air Speed:");
+        airSpeedLabel.setBounds(250, 210, 200, 50);
+        JTextField airSpeedField = new JTextField();
+        airSpeedField.setBounds(250, 260, 180, 30);
+        JButton addAirplaneSubmitButton = new JButton("Submit");
+        addAirplaneSubmitButton.setBounds(50, 310, 150, 40);
+        Component[] addAirplaneComponents = {addAirplaneLabel, airplaneMakeLabel, airplaneMakeField, airplaneModelLabel,
+                airplaneModelField, airplaneTypeLabel, airplaneTypeField, fuelTankSizeLabel, fuelTankSizeField,
+                fuelBurnLabel, fuelBurnField, airSpeedLabel, airSpeedField, addAirplaneSubmitButton};
+        for (Component component : addAirplaneComponents) {
+            addAirplanePanel.add(component);
+        }
+        addAirplaneSubmitButton.addActionListener(e -> {
+            Airplane airplane = new Airplane(airplaneMakeField.getText(), airplaneModelField.getText(),
+                    airplaneTypeField.getText(), fuelTankSizeField.getText(), fuelBurnField.getText(),
+                    airSpeedField.getText());
+            airplaneManager.add(airplane);
+        });
+
 
         // Title Panel
         JPanel titlePanel = new JPanel();
@@ -261,12 +328,11 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
 
         tabbedPane.addTab("Title", titlePanel);
         tabbedPane.addTab("Flight Planner", flightPlanPanel);
-        tabbedPane.addTab("Airplane Manager", airplaneManagerPanel);
+        tabbedPane.addTab("Add Airplane", addAirplanePanel);
         tabbedPane.addTab("Airport Manager", airportManagerPanel);
 
-        tabbedPane.setSelectedIndex(0);
-
         add(tabbedPane);
+        tabbedPane.setSelectedIndex(0);
     }
 
 }
