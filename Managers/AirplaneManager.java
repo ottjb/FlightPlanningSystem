@@ -5,6 +5,10 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+
+import GUI.FlightPlanningSystemGUIV2;
 import Objects.Airplane;
 
 public class AirplaneManager {
@@ -43,33 +47,71 @@ public class AirplaneManager {
         this.airplanes.remove(airplane);
     }
 
-    public void edit(Airplane airplane) {
-
+    public void edit(Airplane airplane, String make, String model, String type, double fuelTankSize, double fuelBurn, double airSpeed) {
+        airplane.setMake(make);
+        airplane.setModel(model);
+        airplane.setType(type);
+        airplane.setFuelTankSize(fuelTankSize);
+        airplane.setFuelBurn(fuelBurn);
+        airplane.setAirSpeed(airSpeed);
     }
 
     public void display(Airplane airplane) {
-        System.out.println(airplane.getMake() + " " + airplane.getModel() + " " + airplane.getType() + " " + airplane.getFuelTankSize() + " " + airplane.getFuelBurn() + " " + airplane.getAirSpeed());
+        JDialog dialog = new JDialog();
+        dialog.setTitle(airplane.getMake() + " " + airplane.getModel());
+        dialog.setSize(200, 230);
+        dialog.setLayout(null);
+        dialog.setResizable(false);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setLocationRelativeTo(FlightPlanningSystemGUIV2.getWindows()[0]);
+
+        JLabel makeLabel = new JLabel("Make: " + airplane.getMake());
+        makeLabel.setBounds(10, 10, 200, 20);
+        JLabel modelLabel = new JLabel("Model: " + airplane.getModel());
+        modelLabel.setBounds(10, 40, 200, 20);
+        JLabel typeLabel = new JLabel("Type: " + airplane.getType());
+        typeLabel.setBounds(10, 70, 200, 20);
+        JLabel fuelTankSizeLabel = new JLabel("Fuel Tank Size: " + airplane.getFuelTankSize());
+        fuelTankSizeLabel.setBounds(10, 100, 200, 20);
+        JLabel fuelBurnLabel = new JLabel("Fuel Burn: " + airplane.getFuelBurn());
+        fuelBurnLabel.setBounds(10, 130, 200, 20);
+        JLabel airSpeedLabel = new JLabel("Air Speed: " + airplane.getAirSpeed());
+        airSpeedLabel.setBounds(10, 160, 200, 20);
+
+        dialog.add(makeLabel);
+        dialog.add(modelLabel);
+        dialog.add(typeLabel);
+        dialog.add(fuelTankSizeLabel);
+        dialog.add(fuelBurnLabel);
+        dialog.add(airSpeedLabel);
+
+        dialog.setVisible(true);
     }
 
-    // This is a test method, this will not be included in the final version
-    public void displayAirplanes() {
-        for (Airplane airplane : this.airplanes) {
-            System.out.println(airplane.getMake() + " " + airplane.getModel());
+    public String[][] getAirplaneMakeModelStrings() {
+        String[][] airplaneData = new String[this.getAirplaneCount()][2];
+        for (Airplane ap : this.airplanes) {
+            int currentIndex = this.airplanes.indexOf(ap);
+            airplaneData[currentIndex][0] = ap.getMake();
+            airplaneData[currentIndex][1] = ap.getModel();
         }
+        return airplaneData;
+    }
+
+    public int getAirplaneCount() {
+        return this.airplanes.size();
+    }
+
+    public Airplane getAirplane(int index) {
+        return this.airplanes.get(index);
     }
 
     public Vector<Airplane> search(String search) {
-        Vector<Airplane> foundAirplanes = new Vector<Airplane>();
-        for (Airplane airplane : this.airplanes) {
-            if (airplane.getMake().contains(search) || airplane.getModel().contains(search) || airplane.getType().contains(search)) {
-                foundAirplanes.add(airplane);
-            }
-        }
-        return foundAirplanes;
+        // use .contains() to search for the search string in the airplane data
+        return null;
     }
 
-    public void close() {
-        System.out.println("Closing Airplane Manager");
+    public void save() {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("data/airplanes.txt"));
             for (Airplane airplane : this.airplanes) {
@@ -80,77 +122,6 @@ public class AirplaneManager {
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
-        }
-    }
-
-    public void displayMenu(Utility u) {
-        System.out.println("--------------------------------");
-        System.out.println("Airplane Management");
-        System.out.println("1. Add an airplane");
-        System.out.println("2. Delete an airplane");
-        System.out.println("3. Edit an airplane");
-        System.out.println("4. Display an airplane");
-        System.out.println("5. Cancel");
-        int option = u.getIntegerInput();
-        System.out.println("--------------------------------");
-        System.out.println();
-
-        switch (option) {
-            case 1:
-                String[] options = {"Enter the make of the airplane:", "Enter the model of the airplane:", "Enter the type of the airplane:", "Enter the fuel tank size of the airplane:", "Enter the fuel burn of the airplane:", "Enter the air speed of the airplane:"};
-                String[] inputs = new String[6];
-                System.out.println("Add an airplane");
-                for (int i = 0; i < options.length; i++) {
-                    System.out.println(options[i]);
-                    if (i == 3 || i == 4 || i == 5) {
-                        inputs[i] = Double.toString(u.getDoubleInput());
-                    } else {
-                        inputs[i] = u.getStringInput();
-                    }
-                }
-                this.add(new Airplane(inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], inputs[5]));
-                break;
-            case 2:
-                this.displayAirplanes();
-                Airplane[] airplanesToDelete = new Airplane[this.airplanes.size()];
-                for (int i = 0; i < this.airplanes.size(); i++) {
-                    System.out.println((i + 1) + ". " + this.airplanes.get(i).getMake() + " " + this.airplanes.get(i).getModel());
-                    airplanesToDelete[i] = this.airplanes.get(i);
-                }
-                System.out.println("Select or search an airplane to delete: ");
-                String deleteOption = u.getStringInput();
-                if (u.isNumeric(deleteOption)) {
-                    int deleteOptionNum = Integer.parseInt(deleteOption);
-                    this.delete(airplanesToDelete[deleteOptionNum - 1]);
-                } else {
-                    System.out.println("Searching for airplanes with the following criteria: " + deleteOption);
-                    Vector<Airplane> deleteSearchOptions = this.search(deleteOption);
-                    System.out.println(deleteSearchOptions.size() + " airplanes found.");
-                    if (deleteSearchOptions.size() == 1) {
-                        this.delete(deleteSearchOptions.get(0));
-                    } else {
-                        for (int i = 0; i < deleteSearchOptions.size(); i++) {
-                            System.out.println((i + 1) + ". " + deleteSearchOptions.get(i).getMake() + " " + deleteSearchOptions.get(i).getModel());
-                        }
-                        System.out.println("Select an airplane to delete from your search: ");
-                        int deleteOptionNum = u.getIntegerInput();
-                        this.delete(deleteSearchOptions.get(deleteOptionNum - 1));
-                    }
-                }
-                
-                this.displayAirplanes();
-                break;
-            case 3:
-                System.out.println("Edit an airplane");
-                break;
-            case 4:
-                System.out.println("Display an airplane");
-                break;
-            case 5:
-                break;
-            default:
-                System.out.println("Please select a valid option.");
-                break;
         }
     }
 }

@@ -22,7 +22,7 @@ public class Airplane {
         this.airSpeed = 0;
     }
 
-    // The `public Airplane(String make, String model, String type, int fuelTankSize, int fuelBurn, int
+    // The `public Airplane(String make, String model, String type, double fuelTankSize, double fuelBurn, double
     // airSpeed)` constructor is a parameterized constructor that initializes the instance variables of
     // the `Airplane` class with the values passed as arguments.
     public Airplane(String make, String model, String type, String fuelTankSize, String fuelBurn, String airSpeed) {
