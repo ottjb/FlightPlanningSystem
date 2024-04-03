@@ -34,6 +34,11 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
     boolean deletingAirplanePanel = false;
     boolean displayingAirplanePanel = false;
 
+    boolean editingAirportPanel = false;
+    boolean deletingAirportPanel = false;
+    boolean displayingAirportPanel = false;
+
+
     private JTabbedPane tabbedPane = new JTabbedPane();
     private JButton airportManagerButton;
     private JButton addAirplaneButton;
@@ -45,14 +50,21 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
     private JPanel editAirplanePanel;
 
     private AirplaneTable airplaneTable;
+    private AirportTable airportTable;
 
     private JButton addAirportButton;
     private JButton editAirportButton;
     private JButton deleteAirportButton;
     private JButton displayAirportButton;
 
+    private JPanel addAirportPanel;
+    private JPanel editAirportPanel;
+
     JLabel editdeleteAirplaneLabel;
     JButton editdeleteAirplaneButton;
+
+    JLabel editdeleteAirportLabel;
+    JButton editdeleteAirportButton;
 
     public FlightPlanningSystemGUIV2(AirplaneManager airplaneManager, AirportManager airportManager) {
 
@@ -69,6 +81,10 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         // Loading Airplane Table that will be used in Edit, Delete, and Display Airplane
         String[][] airplanes = airplaneManager.getAirplaneMakeModelStrings();
         airplaneTable = new AirplaneTable(airplanes);
+
+        // Loading Airport Table that will be used in Edit, Delete, and Display Airport
+        String[][] airports = airportManager.getAirportICAONameStrings();
+        airportTable = new AirportTable(airports);
 
 
         //////////////////
@@ -212,6 +228,15 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         editAirportButton.setBorderPainted(false);
         editAirportButton.setBackground(sidebarBackgroundColor);
         editAirportButton.setForeground(sidebarTextColor);
+        editAirportButton.addActionListener(e -> {
+            editingAirportPanel = true;
+            deletingAirportPanel = false;
+            displayingAirportPanel = false;
+            editdeleteAirportLabel.setText("Edit Airport");
+            editdeleteAirportButton.setText("Edit");
+            airportTable.clearSelection();
+            tabbedPane.setSelectedIndex(5);
+        });
 
         deleteAirportButton = new JButton("Delete Airport");
         deleteAirportButton.setHorizontalAlignment(JButton.LEFT);
@@ -220,6 +245,15 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         deleteAirportButton.setBorderPainted(false);
         deleteAirportButton.setBackground(sidebarBackgroundColor);
         deleteAirportButton.setForeground(sidebarTextColor);
+        deleteAirportButton.addActionListener(e -> {
+            deletingAirportPanel = true;
+            editingAirportPanel = false;
+            displayingAirportPanel = false;
+            editdeleteAirportLabel.setText("Delete Airport");
+            editdeleteAirportButton.setText("Delete");
+            airportTable.clearSelection();
+            tabbedPane.setSelectedIndex(5);
+        });
 
         displayAirportButton = new JButton("Display Airport");
         displayAirportButton.setHorizontalAlignment(JButton.LEFT);
@@ -228,6 +262,15 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         displayAirportButton.setBorderPainted(false);
         displayAirportButton.setBackground(sidebarBackgroundColor);
         displayAirportButton.setForeground(sidebarTextColor);
+        displayAirportButton.addActionListener(e -> {
+            displayingAirportPanel = true;
+            editingAirportPanel = false;
+            deletingAirportPanel = false;
+            editdeleteAirportLabel.setText("Display Airport");
+            editdeleteAirportButton.setText("Display");
+            airportTable.clearSelection();
+            tabbedPane.setSelectedIndex(5);
+        });
 
         airportManagerButton = new JButton("Airport Manager");
         airportManagerButton.setHorizontalAlignment(JButton.LEFT);
@@ -489,6 +532,28 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
             }
         });
 
+
+        /////////////////////////////////
+        // Edit/Delete/Display Airport //
+        /////////////////////////////////
+
+        // Labels and buttons for the edit/delete airport panel
+        editdeleteAirportLabel = new JLabel("Edit/Delete Airport");
+        editdeleteAirportLabel.setBounds(50, 15, 200, 50);
+        
+        editdeleteAirportButton = new JButton("Edit");
+        editdeleteAirportButton.setBounds(50, 350, 150, 40);
+
+        editAirportPanel = new JPanel();
+        editAirportPanel.setLayout(null);
+
+        JScrollPane editAirportScrollPane = new JScrollPane(airportTable);
+        editAirportScrollPane.setBounds(50, 50, 373, 295);
+
+        editAirportPanel.add(editdeleteAirportLabel);
+        editAirportPanel.add(editAirportScrollPane);
+        editAirportPanel.add(editdeleteAirportButton);
+
         /////////////////
         // Title Panel //
         /////////////////
@@ -511,7 +576,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         // Main Tabbed Pane //
         //////////////////////
         tabbedPane = new JTabbedPane();
-        tabbedPane.setBounds(130, -25, 473, 428);
+        tabbedPane.setBounds(130, -44, 473, 447);
         tabbedPane.setBackground(java.awt.Color.BLUE);
         tabbedPane.setBorder(null);
 
@@ -525,6 +590,8 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         tabbedPane.addTab("Flight Planner", flightPlanPanel);
         tabbedPane.addTab("Add Airplane", addAirplanePanel);
         tabbedPane.addTab("Edit Airplane", editAirplanePanel);
+        tabbedPane.addTab("Add Airport", addAirportPanel);
+        tabbedPane.addTab("Edit Airport", editAirportPanel);
 
 
         add(tabbedPane);

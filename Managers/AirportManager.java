@@ -40,9 +40,7 @@ public class AirportManager {
     }
 
     public void add(Airport airport) {
-        this.displayAirports();
         this.airports.add(airport);
-        this.displayAirports();
     }
 
     public void delete(Airport airport) {
@@ -57,11 +55,13 @@ public class AirportManager {
 
     }
 
-    // This is a test method, this will not be included in the final version
-    public void displayAirports() {
-        for (Airport airport : this.airports) {
-            System.out.println(airport.getICAOIdentifier() + " " + airport.getName());
+    public String[][] getAirportICAONameStrings() {
+        String[][] ICAONameStrings = new String[this.airports.size()][2];
+        for (int i = 0; i < this.airports.size(); i++) {
+            ICAONameStrings[i][0] = this.airports.get(i).getICAOIdentifier();
+            ICAONameStrings[i][1] = this.airports.get(i).getName();
         }
+        return ICAONameStrings;
     }
 
     public Vector<Airport> search(String search) {
@@ -69,29 +69,4 @@ public class AirportManager {
         return new Vector<Airport>();
     }
 
-    public void displayMenu(Utility u) {
-        System.out.println("Please select an option:");
-        System.out.println("1. Add an airport");
-        System.out.println("2. Delete an airport");
-        System.out.println("3. Edit an airport");
-        System.out.println("4. Display an airport");
-        System.out.println("5. Cancel");
-
-        int option = u.getIntegerInput();
-
-        switch (option) {
-            case 1:
-                String[] options = { "Enter ICAO Identifier: ", "Enter Name: ", "Enter Latitude: ", "Enter Longitude: ",
-                        "Enter COM Frequency: ", "Enter Fuel Types: " };
-                String[] inputs = new String[options.length];
-                for (int i = 0; i < options.length; i++) {
-                    System.out.print(options[i]);
-                    inputs[i] = u.getStringInput();
-                }
-                String[] fuelTypes = inputs[5].split(",");
-                Airport airport = new Airport(inputs[0].toUpperCase(), inputs[1], Double.parseDouble(inputs[2]),
-                        Double.parseDouble(inputs[3]), Double.parseDouble(inputs[4]), fuelTypes);
-                this.add(airport);
-        }
-    }
 }
