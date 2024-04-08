@@ -379,15 +379,15 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         planel.setBackground(sidebarTextColor);
         JLabel destinationLabel = new JLabel("Destinations:");
         destinationLabel.setBounds(20, -10, 180, 60);
-        JLabel destinationOneLabel = new JLabel("1");
+        JLabel destinationOneLabel = new JLabel("");
         destinationOneLabel.setBounds(20, 10, 180, 60);
-        JLabel destinationTwoLabel = new JLabel("2");
+        JLabel destinationTwoLabel = new JLabel("");
         destinationTwoLabel.setBounds(20, 70, 180, 60);
-        JLabel destinationThreeLabel = new JLabel("3");
+        JLabel destinationThreeLabel = new JLabel("");
         destinationThreeLabel.setBounds(20, 130, 180, 60);
-        JLabel destinationFourLabel = new JLabel("4");
+        JLabel destinationFourLabel = new JLabel("");
         destinationFourLabel.setBounds(20, 190, 180, 60);
-        JLabel destinationFiveLabel = new JLabel("5");
+        JLabel destinationFiveLabel = new JLabel("");
         destinationFiveLabel.setBounds(20, 250, 180, 60);
 
         flightPlanPanel.add(flightPlannerLabel);
@@ -839,12 +839,18 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         JPanel titlePanel = new JPanel();
         titlePanel.setLayout(null);
         JLabel titleLabel = new JLabel("Flight Planning System");
-        titleLabel.setBounds(200, 0, 473, 50);
-        JLabel creatorsLabel = new JLabel("Created by: Jadon Ott, Mary "
-                + "Alice Woolington, Brecken Merrill, and Cheyenne Kirby");
-        creatorsLabel.setBounds(200, 50, 473, 50);
-        JLabel warningLabel = new JLabel("THIS SOFTWARE IS NOT TO BE USED FOR FLIGHT PLANNING OR NAVIGATIONAL PURPOSE");
-        warningLabel.setBounds(200, 100, 473, 50);
+        titleLabel.setBounds(0, 100, 473, 50);
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        titleLabel.setFont(titleLabel.getFont().deriveFont(30.0f));
+        JLabel creatorsLabel = new JLabel("<html><center>Created by: Jadon Ott, Mary "
+                + "Alice Woolington, <br>Brecken Merrill, and Cheyenne Kirby</center></html>");
+        creatorsLabel.setBounds(20, 150, 453, 50);
+        creatorsLabel.setHorizontalAlignment(JLabel.CENTER);
+        creatorsLabel.setFont(creatorsLabel.getFont().deriveFont(15.0f));
+        JLabel warningLabel = new JLabel("<html><center>THIS SOFTWARE IS NOT TO BE USED FOR FLIGHT PLANNING OR NAVIGATIONAL PURPOSE</center></html>");
+        warningLabel.setHorizontalAlignment(JLabel.CENTER);
+        warningLabel.setFont(warningLabel.getFont().deriveFont(15.0f));
+        warningLabel.setBounds(20, 350, 453, 50);
 
         titlePanel.add(titleLabel);
         titlePanel.add(creatorsLabel);
@@ -872,7 +878,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         tabbedPane.addTab("Edit Airport", editAirportPanel);
 
         add(tabbedPane);
-        tabbedPane.setSelectedIndex(1);
+        tabbedPane.setSelectedIndex(0);
     }
 
 }
