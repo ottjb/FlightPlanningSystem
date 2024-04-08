@@ -6,13 +6,15 @@ import javax.swing.JWindow;
 import GUI.FlightPlanningSystemGUIV2;
 import Managers.AirplaneManager;
 import Managers.AirportManager;
+import Managers.FlightPlanner;
 
 public class FlightPlanningSystem {
     public static void main(String[] args) {
         AirplaneManager airplaneManager = new AirplaneManager();
         AirportManager airportManager = new AirportManager();
+        FlightPlanner flightPlanner = new FlightPlanner(airportManager, airplaneManager);
 
-        FlightPlanningSystemGUIV2 gui = new FlightPlanningSystemGUIV2(airplaneManager, airportManager);
+        FlightPlanningSystemGUIV2 gui = new FlightPlanningSystemGUIV2(airplaneManager, airportManager, flightPlanner);
         centerWindow(gui);
         gui.setVisible(true);
     }
