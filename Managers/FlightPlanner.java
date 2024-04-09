@@ -19,6 +19,10 @@ public class FlightPlanner {
         Airport departureAirport = airportManager.getAirport(departureAirportIndex);
         Airport arrivalAirport = airportManager.getAirport(arrivalAirportIndex);
         Airplane airplane = airplaneManager.getAirplane(airplaneIndex);
+
+        double airplaneRange = airplane.calcRange();
+        double distanceBetweenAirports = departureAirport.calcDistance(arrivalAirport);
+
         return flightPlan;
     }
 }

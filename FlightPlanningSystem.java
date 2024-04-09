@@ -8,6 +8,11 @@ import Managers.AirplaneManager;
 import Managers.AirportManager;
 import Managers.FlightPlanner;
 
+/*
+ * @todo: When adding/editing/deleting an airplane or airplane, the Flight Planner should be updated.
+ * @todo: Input validation for adding/editing an airplane or airport.
+ */
+
 public class FlightPlanningSystem {
     public static void main(String[] args) {
         AirplaneManager airplaneManager = new AirplaneManager();

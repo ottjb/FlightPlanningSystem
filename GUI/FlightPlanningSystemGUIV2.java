@@ -334,7 +334,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         add(menuPanel);
 
         //////////////////////////
-        // Flight Planner Panel //
+        // Flight Planner Panel // ITS FUCKED
         //////////////////////////
         JPanel flightPlanPanel = new JPanel();
         flightPlanPanel.setLayout(null);
@@ -411,6 +411,9 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         planFlightButton.addActionListener(e -> {
             if (departureField.getSelectedIndex() == 0 || arrivalField.getSelectedIndex() == 0
                     || airplaneField.getSelectedIndex() == 0) {
+                return;
+            }
+            if (departureField.getSelectedIndex() == arrivalField.getSelectedIndex()) {
                 return;
             }
             int departureIndex = departureField.getSelectedIndex() - 1;
@@ -641,13 +644,13 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         JTextField airportNameField = new JTextField();
         airportNameField.setBounds(160, 100, 270, 30);
 
-        JLabel airportLatitudeLabel = new JLabel("Latitude:");
+        JLabel airportLatitudeLabel = new JLabel("Latitude (N):");
         airportLatitudeLabel.setBounds(50, 130, 200, 50);
 
         JTextField airportLatitudeField = new JTextField();
         airportLatitudeField.setBounds(50, 180, 180, 30);
 
-        JLabel airportLongitudeLabel = new JLabel("Longitude:");
+        JLabel airportLongitudeLabel = new JLabel("Longitude (W):");
         airportLongitudeLabel.setBounds(250, 130, 200, 50);
 
         JTextField airportLongitudeField = new JTextField();

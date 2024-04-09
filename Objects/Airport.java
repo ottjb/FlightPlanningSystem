@@ -1,4 +1,5 @@
 package Objects;
+
 import java.util.Vector;
 
 public class Airport {
@@ -8,8 +9,9 @@ public class Airport {
     private double longitude;
     private double COMFrequency;
     private String[] fuelTypes = new String[2];
-    
-    // The `public Airport()` constructor is a default constructor that initializes the properties of
+
+    // The `public Airport()` constructor is a default constructor that initializes
+    // the properties of
     // the `Airport` object to default values. In this case, the default values are:
     public Airport() {
         this.ICAOIdentifier = "Generic";
@@ -21,12 +23,17 @@ public class Airport {
         this.fuelTypes[1] = "Generic";
     }
 
-    // The `public Airport(String ICAOIdentifier, String name, double latitude, double longitude,
-    // double COMFrequency, String fuelType)` is a constructor for the `Airport` class. It takes in
-    // parameters representing the ICAO identifier, name, latitude, longitude, communication frequency,
-    // and fuel type of an airport, and initializes the corresponding properties of the `Airport`
+    // The `public Airport(String ICAOIdentifier, String name, double latitude,
+    // double longitude,
+    // double COMFrequency, String fuelType)` is a constructor for the `Airport`
+    // class. It takes in
+    // parameters representing the ICAO identifier, name, latitude, longitude,
+    // communication frequency,
+    // and fuel type of an airport, and initializes the corresponding properties of
+    // the `Airport`
     // object with these values.
-    public Airport(String ICAOIdentifier, String name, double latitude, double longitude, double COMFrequency, String[] fuelTypes) {
+    public Airport(String ICAOIdentifier, String name, double latitude, double longitude, double COMFrequency,
+            String[] fuelTypes) {
         this.ICAOIdentifier = ICAOIdentifier;
         this.name = name;
         this.latitude = latitude;
@@ -122,5 +129,38 @@ public class Airport {
     public Vector<Airport> findNearbyAirports(Airplane airplane) {
 
         return new Vector<Airport>();
+    }
+
+    /**
+     * @param airport The airport to calculate the distance to.
+     * @return The distance between the current airport and the given airport in miles.
+     */
+    public double calcDistance(Airport airport) {
+        double startAPLatitude = this.getLatitude();
+        double startAPLongitude = this.getLongitude() * -1;
+        double endAPLatitude = airport.getLatitude();
+        double endAPLongitude = airport.getLongitude() * -1;
+
+        double earthRadius = 6371;
+        
+        // Convert latitude and longitude from degrees to radians
+        double startAPlatRad = Math.toRadians(startAPLatitude);
+        double startAPlongRad = Math.toRadians(startAPLongitude);
+        double endAPlatRad = Math.toRadians(endAPLatitude);
+        double endAPlongRad = Math.toRadians(endAPLongitude);
+
+        // Calculate the differences between coordinates
+        double latDiff = endAPlatRad - startAPlatRad;
+        double lonDiff = endAPlongRad - startAPlongRad;
+
+        // Calculate the distance using Haversine formula
+        double a = Math.pow(Math.sin(latDiff / 2), 2) + Math.cos(startAPlatRad) * Math.cos(endAPlatRad) * Math.pow(Math.sin(lonDiff / 2), 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = earthRadius * c;
+
+        // Convert distance from kilometers to miles
+        distance *= 0.621371;
+
+        return distance;
     }
 }
