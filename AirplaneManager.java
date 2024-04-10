@@ -1,4 +1,4 @@
-package Managers;
+
 
 import java.io.*;
 import java.util.Scanner;
@@ -7,9 +7,6 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-
-import GUI.FlightPlanningSystemGUIV2;
-import Objects.Airplane;
 
 public class AirplaneManager {
 

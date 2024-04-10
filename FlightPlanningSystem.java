@@ -3,14 +3,10 @@ import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.JWindow;
 
-import GUI.FlightPlanningSystemGUIV2;
-import Managers.AirplaneManager;
-import Managers.AirportManager;
-import Managers.FlightPlanner;
-
 /*
  * @todo: When adding/editing/deleting an airplane or airplane, the Flight Planner should be updated.
  * @todo: Input validation for adding/editing an airplane or airport.
+ * @todo: align sidebar text (maybe html it idk)
  */
 
 public class FlightPlanningSystem {

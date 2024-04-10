@@ -1,4 +1,4 @@
-package Managers;
+
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,9 +10,6 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-
-import GUI.FlightPlanningSystemGUIV2;
-import Objects.Airport;
 
 public class AirportManager {
 

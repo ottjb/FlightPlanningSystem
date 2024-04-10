@@ -1,9 +1,6 @@
-package Managers;
+
 
 import java.util.Vector;
-
-import Objects.Airplane;
-import Objects.Airport;
 
 public class FlightPlanner {
     AirportManager airportManager;

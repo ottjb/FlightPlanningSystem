@@ -1,4 +1,3 @@
-package GUI;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -15,12 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-
-import Managers.AirplaneManager;
-import Managers.AirportManager;
-import Managers.FlightPlanner;
-import Objects.Airplane;
-import Objects.Airport;
 
 public class FlightPlanningSystemGUIV2 extends JFrame {
     private int screenHeight = 438;
@@ -334,7 +327,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         add(menuPanel);
 
         //////////////////////////
-        // Flight Planner Panel // ITS FUCKED
+        // Flight Planner Panel //
         //////////////////////////
         JPanel flightPlanPanel = new JPanel();
         flightPlanPanel.setLayout(null);
@@ -850,7 +843,8 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         creatorsLabel.setBounds(20, 150, 453, 50);
         creatorsLabel.setHorizontalAlignment(JLabel.CENTER);
         creatorsLabel.setFont(creatorsLabel.getFont().deriveFont(15.0f));
-        JLabel warningLabel = new JLabel("<html><center>THIS SOFTWARE IS NOT TO BE USED FOR FLIGHT PLANNING OR NAVIGATIONAL PURPOSE</center></html>");
+        JLabel warningLabel = new JLabel(
+                "<html><center>THIS SOFTWARE IS NOT TO BE USED FOR FLIGHT PLANNING OR NAVIGATIONAL PURPOSE</center></html>");
         warningLabel.setHorizontalAlignment(JLabel.CENTER);
         warningLabel.setFont(warningLabel.getFont().deriveFont(15.0f));
         warningLabel.setBounds(20, 350, 453, 50);
