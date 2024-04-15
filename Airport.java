@@ -1,5 +1,4 @@
 
-
 import java.util.Vector;
 
 public class Airport {
@@ -133,7 +132,8 @@ public class Airport {
 
     /**
      * @param airport The airport to calculate the distance to.
-     * @return The distance between the current airport and the given airport in miles.
+     * @return The distance between the current airport and the given airport in
+     *         miles.
      */
     public double calcDistance(Airport airport) {
         double startAPLatitude = this.getLatitude();
@@ -142,7 +142,7 @@ public class Airport {
         double endAPLongitude = airport.getLongitude();
 
         double earthRadius = 6371;
-        
+
         // Convert latitude and longitude from degrees to radians
         double startAPlatRad = Math.toRadians(startAPLatitude);
         double startAPlongRad = Math.toRadians(startAPLongitude);
@@ -154,7 +154,8 @@ public class Airport {
         double lonDiff = endAPlongRad - startAPlongRad;
 
         // Calculate the distance using Haversine formula
-        double a = Math.pow(Math.sin(latDiff / 2), 2) + Math.cos(startAPlatRad) * Math.cos(endAPlatRad) * Math.pow(Math.sin(lonDiff / 2), 2);
+        double a = Math.pow(Math.sin(latDiff / 2), 2)
+                + Math.cos(startAPlatRad) * Math.cos(endAPlatRad) * Math.pow(Math.sin(lonDiff / 2), 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = earthRadius * c;
 
@@ -179,14 +180,13 @@ public class Airport {
         double deltaLong = endAPlongRad - startAPlongRad;
 
         double y = Math.sin(deltaLong) * Math.cos(endAPlatRad);
-        double x = Math.cos(startAPlatRad) * Math.sin(endAPlatRad) - Math.sin(startAPlatRad) * Math.cos(endAPlatRad) * Math.cos(deltaLong);
+        double x = Math.cos(startAPlatRad) * Math.sin(endAPlatRad)
+                - Math.sin(startAPlatRad) * Math.cos(endAPlatRad) * Math.cos(deltaLong);
 
         double heading = Math.atan2(y, x);
         heading = Math.toDegrees(heading);
 
         heading = (heading + 360) % 360;
-
-        heading = Math.round(heading * 1000.0) / 1000.0;
 
         heading = 360 - heading;
 
