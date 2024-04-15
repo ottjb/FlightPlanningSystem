@@ -511,6 +511,10 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
                 if (!Character.isDigit(keyChar) && keyChar != '.') {
                     e.consume();
                 }
+                String temp = fuelTankSizeField.getText();
+                if (temp.contains(".") && keyChar == '.') {
+                    e.consume();
+                }
             }
         });
 
@@ -524,6 +528,10 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
                 if (!Character.isDigit(keyChar) && keyChar != '.') {
                     e.consume();
                 }
+                String temp = fuelBurnField.getText();
+                if (temp.contains(".") && keyChar == '.') {
+                    e.consume();
+                }
             }
         });
 
@@ -535,6 +543,10 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
             public void keyTyped(KeyEvent e) {
                 char keyChar = e.getKeyChar();
                 if (!Character.isDigit(keyChar) && keyChar != '.') {
+                    e.consume();
+                }
+                String temp = airSpeedField.getText();
+                if (temp.contains(".") && keyChar == '.') {
                     e.consume();
                 }
             }
