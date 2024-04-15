@@ -1,6 +1,6 @@
 KCAE|Columbia Metropolitan Airport|33.938889|81.119444|121.9|AVGAS|JA-a;
 KAUG|Augusta State Airport|44.320556|69.797222|109.5|AVGAS|JA-a;
-KATL|Hartsfield-Jackson Atlanta International Airport|33.636667|84.428056|79.5|AVGAS|JA-a;
+KATL|Hartsfield-Jackson Atlanta Intl Airport|33.636667|84.428056|79.5|AVGAS|JA-a;
 KCLT|Charlotte Douglas International Airport|35.213889|80.943056|100.5|AVGAS|JA-a;
 KRDU|Raleigh-Durham International Airport|35.877778|78.7875|159.0|AVGAS|JA-a;
 KIAD|Dulles International Airport|38.944444|77.455833|125.9|AVGAS|JA-a;
@@ -8,3 +8,10 @@ KJFK|John F. Kennedy International Airport|40.639722|73.778889|119.1|AVGAS|JA-a;
 KRIC|Richmond International Airport|37.505|77.319444|123.6|AVGAS|JA-a;
 CYYZ|Toronto Pearson International Airport|43.676667|79.630556|122.275|AVGAS|JA-a;
 KLAX|Los Angeles International Airport|33.9425|118.408056|128.2|AVGAS|JA-a;
+KACT|Waco Regional Airport|31.611389|97.230556|462.15|AVGAS|JA-a;
+KALX|Thomas C. Russell Field|32.914722|85.963056|121.2|AVGAS|JA-a;
+KHTH|Hawthorne Industrial Airport|38.544444|118.634167|125.75|AVGAS|JA-a;
+KAEG|Double Eagle II Airport|35.145278|106.795278|431.99|AVGAS|JA-a;
+KRKS|Southwest Wyoming Regional Airport|41.594167|109.065278|201.75|AVGAS|JA-a;
+KSPB|Scappoose Industrial Airpark|45.771111|122.861944|123.99|AVGAS|JA-a;
+CYFS|Fort Simpson Airport|61.760278|121.236667|325.77|AVGAS|JA-a;

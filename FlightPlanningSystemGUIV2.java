@@ -66,11 +66,15 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
     JLabel editdeleteAirportLabel;
     JButton editdeleteAirportButton;
 
-    public FlightPlanningSystemGUIV2(AirplaneManager airplaneManager, AirportManager airportManager,
-            FlightPlanner flightPlanner) {
+    JComboBox<String> departureField;
+    JComboBox<String> arrivalField;
+    JComboBox<String> airplaneField;
+
+    public FlightPlanningSystemGUIV2(AirplaneManager airplaneManager, AirportManager airportManager) {
 
         this.airplaneManager = airplaneManager;
         this.airportManager = airportManager;
+        this.flightPlanner = new FlightPlanner(airportManager, airplaneManager);
 
         setTitle("Flight Planning System");
         setSize(screenWidth, screenHeight);
@@ -98,7 +102,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
 
         JButton flightPlannerButton = new JButton("Flight Planner");
         flightPlannerButton.setHorizontalAlignment(JButton.LEFT);
-        flightPlannerButton.setBounds(0, 0, 132, 50);
+        flightPlannerButton.setBounds(-5, 0, 132, 50);
         flightPlannerButton.addActionListener(e -> {
             tabbedPane.setSelectedIndex(1);
         });
@@ -277,7 +281,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
 
         airportManagerButton = new JButton("Airport Manager");
         airportManagerButton.setHorizontalAlignment(JButton.LEFT);
-        airportManagerButton.setBounds(0, 100, 132, 50);
+        airportManagerButton.setBounds(-5, 100, 132, 50);
         airportManagerButton.addActionListener(e -> {
             if (airplaneManagerOpen) {
                 menuPanel.remove(addAirplaneButton);
@@ -316,7 +320,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         exitButton.setBounds(0, screenHeight - 87, 132, 50);
         exitButton.addActionListener(e -> {
             airplaneManager.save();
-            // airportManager.save();
+            airportManager.save();
             System.exit(0);
         });
         exitButton.setBorderPainted(false);
@@ -341,47 +345,46 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         JLabel airplaneLabel = new JLabel("Airplane:");
         airplaneLabel.setBounds(50, 210, 200, 50);
 
-        JComboBox<String> departureField = new JComboBox<String>();
+        departureField = new JComboBox<String>();
         departureField.setBounds(50, 100, 200, 30);
-        JComboBox<String> arrivalField = new JComboBox<String>();
+        arrivalField = new JComboBox<String>();
         arrivalField.setBounds(50, 180, 200, 30);
 
-        departureField.addItem("Select an Airport");
-        arrivalField.addItem("Select an Airport");
-        for (int i = 0; i < airportManager.getAirportCount(); i++) {
-            departureField.addItem(
-                    airportManager.getAirport(i).getICAOIdentifier() + " - " + airportManager.getAirport(i).getName());
-            arrivalField.addItem(
-                    airportManager.getAirport(i).getICAOIdentifier() + " - " + airportManager.getAirport(i).getName());
-        }
-
-        JComboBox<String> airplaneField = new JComboBox<String>();
+        airplaneField = new JComboBox<String>();
         airplaneField.setBounds(50, 260, 200, 30);
-        airplaneField.addItem("Select an Airplane");
-        for (int i = 0; i < airplaneManager.getAirplaneCount(); i++) {
-            airplaneField.addItem(
-                    airplaneManager.getAirplane(i).getMake() + " " + airplaneManager.getAirplane(i).getModel());
-        }
+
+        updatePlanOptions();
 
         JButton planFlightButton = new JButton("Plan Flight");
         planFlightButton.setBounds(50, 310, 150, 40);
 
         JPanel planel = new JPanel();
         planel.setLayout(null);
-        planel.setBounds(270, 50, 180, 300);
+        planel.setBounds(270, 30, 180, 340);
         planel.setBackground(sidebarTextColor);
         JLabel destinationLabel = new JLabel("Destinations:");
-        destinationLabel.setBounds(20, -10, 180, 60);
-        JLabel destinationOneLabel = new JLabel("");
-        destinationOneLabel.setBounds(20, 10, 180, 60);
-        JLabel destinationTwoLabel = new JLabel("");
-        destinationTwoLabel.setBounds(20, 70, 180, 60);
-        JLabel destinationThreeLabel = new JLabel("");
-        destinationThreeLabel.setBounds(20, 130, 180, 60);
-        JLabel destinationFourLabel = new JLabel("");
-        destinationFourLabel.setBounds(20, 190, 180, 60);
-        JLabel destinationFiveLabel = new JLabel("");
-        destinationFiveLabel.setBounds(20, 250, 180, 60);
+        destinationLabel.setBounds(20, -10, 180, 40);
+        JLabel destinationPortOneLabel = new JLabel("");
+        destinationPortOneLabel.setBounds(20, 30, 140, 40);
+        JLabel destinationPortTwoLabel = new JLabel("");
+        destinationPortTwoLabel.setBounds(20, 90, 140, 40);
+        JLabel destinationPortThreeLabel = new JLabel("");
+        destinationPortThreeLabel.setBounds(20, 150, 140, 40);
+        JLabel destinationPortFourLabel = new JLabel("");
+        destinationPortFourLabel.setBounds(20, 210, 140, 40);
+        JLabel destinationPortFiveLabel = new JLabel("");
+        destinationPortFiveLabel.setBounds(20, 270, 140, 40);
+
+        JLabel destinationHeadingOneLabel = new JLabel("");
+        destinationHeadingOneLabel.setBounds(20, 70, 140, 20);
+        JLabel destinationHeadingTwoLabel = new JLabel("");
+        destinationHeadingTwoLabel.setBounds(20, 130, 140, 20);
+        JLabel destinationHeadingThreeLabel = new JLabel("");
+        destinationHeadingThreeLabel.setBounds(20, 190, 140, 20);
+        JLabel destinationHeadingFourLabel = new JLabel("");
+        destinationHeadingFourLabel.setBounds(20, 250, 140, 20);
+        JLabel destinationHeadingFiveLabel = new JLabel("");
+        destinationHeadingFiveLabel.setBounds(20, 310, 140, 20);
 
         flightPlanPanel.add(flightPlannerLabel);
         flightPlanPanel.add(departureLabel);
@@ -392,27 +395,69 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         flightPlanPanel.add(airplaneField);
         flightPlanPanel.add(planFlightButton);
 
+        destinationPortOneLabel.setVerticalAlignment(JLabel.TOP);
+        destinationPortTwoLabel.setVerticalAlignment(JLabel.TOP);
+        destinationPortThreeLabel.setVerticalAlignment(JLabel.TOP);
+        destinationPortFourLabel.setVerticalAlignment(JLabel.TOP);
+        destinationPortFiveLabel.setVerticalAlignment(JLabel.TOP);
+
         planel.add(destinationLabel);
-        planel.add(destinationOneLabel);
-        planel.add(destinationTwoLabel);
-        planel.add(destinationThreeLabel);
-        planel.add(destinationFourLabel);
-        planel.add(destinationFiveLabel);
+        planel.add(destinationPortOneLabel);
+        planel.add(destinationPortTwoLabel);
+        planel.add(destinationPortThreeLabel);
+        planel.add(destinationPortFourLabel);
+        planel.add(destinationPortFiveLabel);
+
+        planel.add(destinationHeadingOneLabel);
+        planel.add(destinationHeadingTwoLabel);
+        planel.add(destinationHeadingThreeLabel);
+        planel.add(destinationHeadingFourLabel);
+        planel.add(destinationHeadingFiveLabel);
 
         flightPlanPanel.add(planel);
 
         planFlightButton.addActionListener(e -> {
             if (departureField.getSelectedIndex() == 0 || arrivalField.getSelectedIndex() == 0
                     || airplaneField.getSelectedIndex() == 0) {
+                showDialog("All fields must be selected.");
                 return;
             }
             if (departureField.getSelectedIndex() == arrivalField.getSelectedIndex()) {
+                showDialog("Departure and arrival airports must be different.");
                 return;
             }
             int departureIndex = departureField.getSelectedIndex() - 1;
             int arrivalIndex = arrivalField.getSelectedIndex() - 1;
             int airplaneIndex = airplaneField.getSelectedIndex() - 1;
             Vector<Airport> flightPlan = flightPlanner.planFlight(departureIndex, arrivalIndex, airplaneIndex);
+            
+            Vector<JLabel> destinationLabels = new Vector<JLabel>();
+            destinationLabels.add(destinationPortOneLabel);
+            destinationLabels.add(destinationPortTwoLabel);
+            destinationLabels.add(destinationPortThreeLabel);
+            destinationLabels.add(destinationPortFourLabel);
+            destinationLabels.add(destinationPortFiveLabel);
+
+            Vector<JLabel> destinationHeadings = new Vector<JLabel>();
+            destinationHeadings.add(destinationHeadingOneLabel);
+            destinationHeadings.add(destinationHeadingTwoLabel);
+            destinationHeadings.add(destinationHeadingThreeLabel);
+            destinationHeadings.add(destinationHeadingFourLabel);
+            destinationHeadings.add(destinationHeadingFiveLabel);
+            if (flightPlan == null || flightPlan.size() > 5) {
+                showDialog("No flight plan found.");
+            } else {
+                for (int i = 0; i < flightPlan.size(); i++) {
+                    double heading;
+                    if (i == 0) {
+                        heading = airportManager.getAirport(departureIndex).calcHeading(flightPlan.elementAt(i));
+                    } else {
+                        heading = flightPlan.elementAt(i - 1).calcHeading(flightPlan.elementAt(i));
+                    }
+                    destinationLabels.elementAt(i).setText("<html>" + flightPlan.elementAt(i).getName() + "</html>");
+                    destinationHeadings.elementAt(i).setText("<html>Heading: " + airplaneManager.findCardinalDirection(heading) + " (" + heading + "°)</html>");
+                }
+            }
         });
 
         ////////////////////////
@@ -442,16 +487,40 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         fuelTankSizeLabel.setBounds(250, 130, 200, 50);
         JTextField fuelTankSizeField = new JTextField();
         fuelTankSizeField.setBounds(250, 180, 180, 30);
+        fuelTankSizeField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char keyChar = e.getKeyChar();
+                if (!Character.isDigit(keyChar) && keyChar != '.') {
+                    e.consume();
+                }
+            }
+        });
 
         JLabel fuelBurnLabel = new JLabel("Fuel Burn:");
         fuelBurnLabel.setBounds(50, 210, 200, 50);
         JTextField fuelBurnField = new JTextField();
         fuelBurnField.setBounds(50, 260, 180, 30);
+        fuelBurnField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char keyChar = e.getKeyChar();
+                if (!Character.isDigit(keyChar) && keyChar != '.') {
+                    e.consume();
+                }
+            }
+        });
 
         JLabel airSpeedLabel = new JLabel("Air Speed:");
         airSpeedLabel.setBounds(250, 210, 200, 50);
         JTextField airSpeedField = new JTextField();
         airSpeedField.setBounds(250, 260, 180, 30);
+        airSpeedField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char keyChar = e.getKeyChar();
+                if (!Character.isDigit(keyChar) && keyChar != '.') {
+                    e.consume();
+                }
+            }
+        });
 
         JButton addAirplaneSubmitButton = new JButton("Submit");
         addAirplaneSubmitButton.setBounds(50, 310, 150, 40);
@@ -464,6 +533,16 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
             addAirplanePanel.add(component);
         }
         addAirplaneSubmitButton.addActionListener(e -> {
+            if (airplaneMakeField.getText().equals("") || airplaneModelField.getText().equals("")
+                            || airplaneTypeField.getText().equals("") || fuelTankSizeField.getText().equals("")
+                            || fuelBurnField.getText().equals("") || airSpeedField.getText().equals("")) {
+                        showDialog("All fields must be filled out.");
+                        return;
+                    }
+            if (airplaneManager.alreadyExists(airplaneMakeField.getText(), airplaneModelField.getText())) {
+                showDialog("Airplane already exists.");
+                return;
+            }
             Airplane airplane = new Airplane(airplaneMakeField.getText(), airplaneModelField.getText(),
                     airplaneTypeField.getText(), fuelTankSizeField.getText(), fuelBurnField.getText(),
                     airSpeedField.getText());
@@ -475,7 +554,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
             fuelBurnField.setText("");
             airSpeedField.setText("");
             airplaneManager.save();
-
+            updatePlanOptions();
             airplaneTable.addData(new String[] { airplane.getMake(), airplane.getModel() });
         });
 
@@ -512,6 +591,19 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
             if (editingAirplanePanel) {
                 if (editingAirplane) {
                     int selectedRow = airplaneTable.getSelected();
+                    if (airplaneMakeField.getText().equals("") || airplaneModelField.getText().equals("")
+                            || airplaneTypeField.getText().equals("") || fuelTankSizeField.getText().equals("")
+                            || fuelBurnField.getText().equals("") || airSpeedField.getText().equals("")) {
+                        showDialog("All fields must be filled out.");
+                        return;
+                    }
+                    if (!airplaneMakeField.getText().equals(airplaneManager.getAirplane(selectedRow).getMake())
+                            || !airplaneModelField.getText().equals(airplaneManager.getAirplane(selectedRow).getModel())) {
+                                if (airplaneManager.alreadyExists(airplaneMakeField.getText(), airplaneModelField.getText())) {
+                                    showDialog("Airplane already exists.");
+                                    return;
+                                }
+                            }
                     editAirplaneScrollPane.setVisible(true);
                     for (Component component : editAirplaneComponents) {
                         editAirplanePanel.remove(component);
@@ -525,6 +617,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
                             Double.parseDouble(fuelBurnField.getText()),
                             Double.parseDouble(airSpeedField.getText()));
                     airplaneManager.save();
+                    updatePlanOptions();
                     airplaneTable.setValueAt(airplane.getMake(), selectedRow, 0);
                     airplaneTable.setValueAt(airplane.getModel(), selectedRow, 1);
                     airplaneMakeField.setText("");
@@ -584,6 +677,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
                 confirmButton.addActionListener(e1 -> {
                     airplaneManager.delete(airplaneManager.getAirplane(selectedRow));
                     airplaneManager.save();
+                    updatePlanOptions();
                     airplaneTable.removeData(selectedRow);
                     confirmDialog.dispose();
                 });
@@ -642,18 +736,42 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
 
         JTextField airportLatitudeField = new JTextField();
         airportLatitudeField.setBounds(50, 180, 180, 30);
+        airportLatitudeField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char keyChar = e.getKeyChar();
+                if (!Character.isDigit(keyChar) && keyChar != '.') {
+                    e.consume();
+                }
+            }
+        });
 
         JLabel airportLongitudeLabel = new JLabel("Longitude (W):");
         airportLongitudeLabel.setBounds(250, 130, 200, 50);
 
         JTextField airportLongitudeField = new JTextField();
         airportLongitudeField.setBounds(250, 180, 180, 30);
+        airportLongitudeField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char keyChar = e.getKeyChar();
+                if (!Character.isDigit(keyChar) && keyChar != '.') {
+                    e.consume();
+                }
+            }
+        });
 
         JLabel COMFrequencyLabel = new JLabel("COM Frequency:");
         COMFrequencyLabel.setBounds(50, 210, 200, 50);
 
         JTextField COMFrequencyField = new JTextField();
         COMFrequencyField.setBounds(50, 260, 130, 30);
+        COMFrequencyField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char keyChar = e.getKeyChar();
+                if (!Character.isDigit(keyChar) && keyChar != '.') {
+                    e.consume();
+                }
+            }
+        });
 
         JLabel fuelTypesLabel = new JLabel("Fuel Types:");
         fuelTypesLabel.setBounds(200, 210, 200, 50);
@@ -683,6 +801,32 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         }
 
         addAirportSubmitButton.addActionListener(e -> {
+            if (airportICAOIdentifierField.getText().equals("") || airportNameField.getText().equals("")
+                            || airportLatitudeField.getText().equals("") || airportLongitudeField.getText().equals("")
+                            || COMFrequencyField.getText().equals("")) {
+                        showDialog("All fields must be filled out.");
+                        return;
+                    }
+            if (airportICAOIdentifierField.getText().length() < 4) {
+                showDialog("ICAO Identifier must be 4 characters.");
+                return;
+            }
+            if (fuelTypesField1.getSelectedItem() == fuelTypesField2.getSelectedItem()) {
+                showDialog("Fuel types must be different.");
+                return;
+            }
+            if (!airportManager.isValidLatitude(Double.parseDouble(airportLatitudeField.getText()))) {
+                showDialog("Latitude must be between -90 and 90.");
+                return;
+            }
+            if (!airportManager.isValidLongitude(Double.parseDouble(airportLongitudeField.getText()))) {
+                showDialog("Longitude must be between -180 and 180.");
+                return;
+            }
+            if (airportManager.alreadyExists(airportICAOIdentifierField.getText(), airportNameField.getText())) {
+                showDialog("Airport already exists.");
+                return;
+            }
             Airport airport = new Airport(airportICAOIdentifierField.getText(), airportNameField.getText(),
                     Double.parseDouble(airportLatitudeField.getText()),
                     Double.parseDouble(airportLongitudeField.getText()),
@@ -693,11 +837,13 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
             airportNameField.setText("");
             airportLatitudeField.setText("");
             airportLongitudeField.setText("");
+            COMFrequencyField.setText("");
             fuelTypesField1.setSelectedIndex(0);
             fuelTypesField2.setSelectedIndex(0);
             airportManager.save();
 
             airportTable.addData(new String[] { airport.getICAOIdentifier(), airport.getName() });
+            updatePlanOptions();
         });
 
         /////////////////////////////////
@@ -734,6 +880,35 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
             if (editingAirportPanel) {
                 if (editingAirport) {
                     int selectedRow = airportTable.getSelected();
+                    if (airportICAOIdentifierField.getText().equals("") || airportNameField.getText().equals("")
+                            || airportLatitudeField.getText().equals("") || airportLongitudeField.getText().equals("")
+                            || COMFrequencyField.getText().equals("")) {
+                        showDialog("All fields must be filled out.");
+                        return;
+                    }
+                    if (airportICAOIdentifierField.getText().length() < 4) {
+                        showDialog("ICAO Identifier must be 4 characters.");
+                        return;
+                    }
+                    if (fuelTypesField1.getSelectedItem() == fuelTypesField2.getSelectedItem()) {
+                        showDialog("Fuel types must be different.");
+                        return;
+                    }
+                    if (!airportManager.isValidLatitude(Double.parseDouble(airportLatitudeField.getText()))) {
+                        showDialog("Latitude must be between -90 and 90.");
+                        return;
+                    }
+                    if (!airportManager.isValidLongitude(Double.parseDouble(airportLongitudeField.getText()))) {
+                        showDialog("Longitude must be between -180 and 180.");
+                        return;
+                    }
+                    if (!airportICAOIdentifierField.getText().equals(airportManager.getAirport(selectedRow).getICAOIdentifier())
+                            || !airportNameField.getText().equals(airportManager.getAirport(selectedRow).getName())) {
+                        if (airportManager.alreadyExists(airportICAOIdentifierField.getText(), airportNameField.getText())) {
+                            showDialog("Airport already exists.");
+                            return;
+                        }
+                    }
                     editAirportScrollPane.setVisible(true);
                     for (Component component : editAirportComponents) {
                         editAirportPanel.remove(component);
@@ -749,6 +924,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
                             new String[] { (String) fuelTypesField1.getSelectedItem(),
                                     (String) fuelTypesField2.getSelectedItem() });
                     airportManager.save();
+                    updatePlanOptions();
                     airportTable.setValueAt(airport.getICAOIdentifier(), selectedRow, 0);
                     airportTable.setValueAt(airport.getName(), selectedRow, 1);
                     airportICAOIdentifierField.setText("");
@@ -810,6 +986,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
                 confirmButton.addActionListener(e1 -> {
                     airportManager.delete(airportManager.getAirport(selectedRow));
                     airportManager.save();
+                    updatePlanOptions();
                     airportTable.removeData(selectedRow);
                     confirmDialog.dispose();
                 });
@@ -876,6 +1053,48 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
 
         add(tabbedPane);
         tabbedPane.setSelectedIndex(0);
+    }
+
+    private void showDialog(String text) {
+        JDialog d = new JDialog(this, "");
+        d.setSize(300, 150);
+        d.setLayout(null);
+        d.setResizable(false);
+        d.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        d.setLocationRelativeTo(this);
+        JLabel l = new JLabel("<html><center>" + text + "</center></html>");
+        l.setHorizontalAlignment(JLabel.CENTER);
+        l.setBounds(30, 10, 240, 50);
+        JButton b = new JButton("OK");
+        b.setBounds(105, 70, 90, 30);
+        b.addActionListener(e -> {
+            d.dispose();
+        });
+        d.add(l);
+        d.add(b);
+        d.setVisible(true);
+    }
+
+    private void updatePlanOptions() {
+        departureField.removeAllItems();
+        arrivalField.removeAllItems();
+        airplaneField.removeAllItems();
+
+        departureField.addItem("Select an Airport");
+        arrivalField.addItem("Select an Airport");
+        airplaneField.addItem("Select an Airplane");
+
+        for (int i = 0; i < airportManager.getAirportCount(); i++) {
+            departureField.addItem(
+                    airportManager.getAirport(i).getICAOIdentifier() + " - " + airportManager.getAirport(i).getName());
+            arrivalField.addItem(
+                    airportManager.getAirport(i).getICAOIdentifier() + " - " + airportManager.getAirport(i).getName());
+        }
+
+        for (int i = 0; i < airplaneManager.getAirplaneCount(); i++) {
+            airplaneField.addItem(
+                    airplaneManager.getAirplane(i).getMake() + " " + airplaneManager.getAirplane(i).getModel());
+        }
     }
 
 }

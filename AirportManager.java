@@ -128,4 +128,21 @@ public class AirportManager {
             e.printStackTrace();
         }
     }
+
+    public boolean isValidLongitude(double longitude) {
+        return longitude >= -180 && longitude <= 180;
+    }
+
+    public boolean isValidLatitude(double latitude) {
+        return latitude >= -90 && latitude <= 90;
+    }
+
+    public boolean alreadyExists(String ICAOIdentifier, String name) {
+        for (Airport airport : this.airports) {
+            if (airport.getICAOIdentifier().equals(ICAOIdentifier) || airport.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

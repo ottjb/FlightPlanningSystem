@@ -137,9 +137,9 @@ public class Airport {
      */
     public double calcDistance(Airport airport) {
         double startAPLatitude = this.getLatitude();
-        double startAPLongitude = this.getLongitude() * -1;
+        double startAPLongitude = this.getLongitude();
         double endAPLatitude = airport.getLatitude();
-        double endAPLongitude = airport.getLongitude() * -1;
+        double endAPLongitude = airport.getLongitude();
 
         double earthRadius = 6371;
         
@@ -159,8 +159,37 @@ public class Airport {
         double distance = earthRadius * c;
 
         // Convert distance from kilometers to miles
-        distance *= 0.621371;
+        double distanceMiles = distance * 0.621371;
 
-        return distance;
+        return distanceMiles;
+    }
+
+    public double calcHeading(Airport airport) {
+        double startAPLatitude = this.getLatitude();
+        double startAPLongitude = this.getLongitude();
+        double endAPLatitude = airport.getLatitude();
+        double endAPLongitude = airport.getLongitude();
+
+        // Convert to radians
+        double startAPlatRad = Math.toRadians(startAPLatitude);
+        double startAPlongRad = Math.toRadians(startAPLongitude);
+        double endAPlatRad = Math.toRadians(endAPLatitude);
+        double endAPlongRad = Math.toRadians(endAPLongitude);
+
+        double deltaLong = endAPlongRad - startAPlongRad;
+
+        double y = Math.sin(deltaLong) * Math.cos(endAPlatRad);
+        double x = Math.cos(startAPlatRad) * Math.sin(endAPlatRad) - Math.sin(startAPlatRad) * Math.cos(endAPlatRad) * Math.cos(deltaLong);
+
+        double heading = Math.atan2(y, x);
+        heading = Math.toDegrees(heading);
+
+        heading = (heading + 360) % 360;
+
+        heading = Math.round(heading * 1000.0) / 1000.0;
+
+        heading = 360 - heading;
+
+        return heading;
     }
 }
