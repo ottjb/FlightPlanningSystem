@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyAdapter;
@@ -70,6 +69,18 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
     JComboBox<String> arrivalField;
     JComboBox<String> airplaneField;
 
+    JLabel destinationPortOneLabel;
+    JLabel destinationPortTwoLabel;
+    JLabel destinationPortThreeLabel;
+    JLabel destinationPortFourLabel;
+    JLabel destinationPortFiveLabel;
+
+    JLabel destinationHeadingOneLabel;
+    JLabel destinationHeadingTwoLabel;
+    JLabel destinationHeadingThreeLabel;
+    JLabel destinationHeadingFourLabel;
+    JLabel destinationHeadingFiveLabel;
+
     public FlightPlanningSystemGUIV2(AirplaneManager airplaneManager, AirportManager airportManager) {
 
         this.airplaneManager = airplaneManager;
@@ -104,6 +115,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         flightPlannerButton.setHorizontalAlignment(JButton.LEFT);
         flightPlannerButton.setBounds(-5, 0, 132, 50);
         flightPlannerButton.addActionListener(e -> {
+            resetFlightPlan();
             tabbedPane.setSelectedIndex(1);
         });
         flightPlannerButton.setBorderPainted(false);
@@ -364,26 +376,26 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         planel.setBackground(sidebarTextColor);
         JLabel destinationLabel = new JLabel("Destinations:");
         destinationLabel.setBounds(20, -10, 180, 40);
-        JLabel destinationPortOneLabel = new JLabel("");
+        destinationPortOneLabel = new JLabel("");
         destinationPortOneLabel.setBounds(20, 50, 140, 40);
-        JLabel destinationPortTwoLabel = new JLabel("");
+        destinationPortTwoLabel = new JLabel("");
         destinationPortTwoLabel.setBounds(20, 110, 140, 40);
-        JLabel destinationPortThreeLabel = new JLabel("");
+        destinationPortThreeLabel = new JLabel("");
         destinationPortThreeLabel.setBounds(20, 170, 140, 40);
-        JLabel destinationPortFourLabel = new JLabel("");
+        destinationPortFourLabel = new JLabel("");
         destinationPortFourLabel.setBounds(20, 230, 140, 40);
-        JLabel destinationPortFiveLabel = new JLabel("");
+        destinationPortFiveLabel = new JLabel("");
         destinationPortFiveLabel.setBounds(20, 290, 140, 40);
 
-        JLabel destinationHeadingOneLabel = new JLabel("");
+        destinationHeadingOneLabel = new JLabel("");
         destinationHeadingOneLabel.setBounds(20, 30, 140, 20);
-        JLabel destinationHeadingTwoLabel = new JLabel("");
+        destinationHeadingTwoLabel = new JLabel("");
         destinationHeadingTwoLabel.setBounds(20, 90, 140, 20);
-        JLabel destinationHeadingThreeLabel = new JLabel("");
+        destinationHeadingThreeLabel = new JLabel("");
         destinationHeadingThreeLabel.setBounds(20, 150, 140, 20);
-        JLabel destinationHeadingFourLabel = new JLabel("");
+        destinationHeadingFourLabel = new JLabel("");
         destinationHeadingFourLabel.setBounds(20, 210, 140, 20);
-        JLabel destinationHeadingFiveLabel = new JLabel("");
+        destinationHeadingFiveLabel = new JLabel("");
         destinationHeadingFiveLabel.setBounds(20, 270, 140, 20);
 
         flightPlanPanel.add(flightPlannerLabel);
@@ -1148,4 +1160,31 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
         }
     }
 
+    private void resetFlightPlan() {
+
+        departureField.setSelectedIndex(0);
+        arrivalField.setSelectedIndex(0);
+        airplaneField.setSelectedIndex(0);
+
+        Vector<JLabel> destinationLabels = new Vector<JLabel>();
+        destinationLabels.add(destinationPortOneLabel);
+        destinationLabels.add(destinationPortTwoLabel);
+        destinationLabels.add(destinationPortThreeLabel);
+        destinationLabels.add(destinationPortFourLabel);
+        destinationLabels.add(destinationPortFiveLabel);
+
+        Vector<JLabel> destinationHeadings = new Vector<JLabel>();
+        destinationHeadings.add(destinationHeadingOneLabel);
+        destinationHeadings.add(destinationHeadingTwoLabel);
+        destinationHeadings.add(destinationHeadingThreeLabel);
+        destinationHeadings.add(destinationHeadingFourLabel);
+        destinationHeadings.add(destinationHeadingFiveLabel);
+
+        for (JLabel label : destinationLabels) {
+            label.setText("");
+        }
+        for (JLabel label : destinationHeadings) {
+            label.setText("");
+        }
+    }
 }

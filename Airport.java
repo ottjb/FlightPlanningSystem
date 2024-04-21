@@ -1,4 +1,3 @@
-
 import java.util.Vector;
 
 public class Airport {
@@ -9,9 +8,6 @@ public class Airport {
     private double COMFrequency;
     private String[] fuelTypes = new String[2];
 
-    // The `public Airport()` constructor is a default constructor that initializes
-    // the properties of
-    // the `Airport` object to default values. In this case, the default values are:
     public Airport() {
         this.ICAOIdentifier = "Generic";
         this.name = "Generic";
@@ -22,15 +18,6 @@ public class Airport {
         this.fuelTypes[1] = "Generic";
     }
 
-    // The `public Airport(String ICAOIdentifier, String name, double latitude,
-    // double longitude,
-    // double COMFrequency, String fuelType)` is a constructor for the `Airport`
-    // class. It takes in
-    // parameters representing the ICAO identifier, name, latitude, longitude,
-    // communication frequency,
-    // and fuel type of an airport, and initializes the corresponding properties of
-    // the `Airport`
-    // object with these values.
     public Airport(String ICAOIdentifier, String name, double latitude, double longitude, double COMFrequency,
             String[] fuelTypes) {
         this.ICAOIdentifier = ICAOIdentifier;
@@ -41,86 +28,50 @@ public class Airport {
         this.fuelTypes = fuelTypes;
     }
 
-    /**
-     * @return The current airport's ICAO identifier.
-     */
     public String getICAOIdentifier() {
         return this.ICAOIdentifier;
     }
 
-    /**
-     * @return The current airport's name.
-     */
     public String getName() {
         return this.name;
     }
 
-    /**
-     * @return The current airport's latitude.
-     */
     public double getLatitude() {
         return this.latitude;
     }
 
-    /**
-     * @return The current airport's longitude.
-     */
     public double getLongitude() {
         return this.longitude;
     }
 
-    /**
-     * @return The current airport's communication frequency.
-     */
     public double getCOMFrequency() {
         return this.COMFrequency;
     }
 
-    /**
-     * @return The current airport's fuel type.
-     */
     public String[] getFuelType() {
         return this.fuelTypes;
     }
 
-    /**
-     * @param ICAOIdentifier The current airport's ICAO identifier.
-     */
     public void setICAOIdentifier(String ICAOIdentifier) {
         this.ICAOIdentifier = ICAOIdentifier;
     }
 
-    /**
-     * @param name The current airport's name.
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * @param latitude The current airport's latitude.
-     */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    /**
-     * @param longitude The current airport's longitude.
-     */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    /**
-     * @param COMFrequency The current airport's communication frequency.
-     */
     public void setCOMFrequency(double COMFrequency) {
         this.COMFrequency = COMFrequency;
     }
 
-    /**
-     * @param fuelType The current airport's fuel type.
-     */
     public void setFuelType(String[] fuelTypes) {
         this.fuelTypes = fuelTypes;
     }
@@ -130,11 +81,6 @@ public class Airport {
         return new Vector<Airport>();
     }
 
-    /**
-     * @param airport The airport to calculate the distance to.
-     * @return The distance between the current airport and the given airport in
-     *         miles.
-     */
     public double calcDistance(Airport airport) {
         double startAPLatitude = this.getLatitude();
         double startAPLongitude = this.getLongitude();

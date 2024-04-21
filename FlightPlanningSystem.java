@@ -3,10 +3,6 @@ import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.JWindow;
 
-/*
- * @todo: align sidebar text (maybe html it idk)
- */
-
 public class FlightPlanningSystem {
     public static void main(String[] args) {
         AirplaneManager airplaneManager = new AirplaneManager();

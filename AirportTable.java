@@ -1,5 +1,3 @@
-
-
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -55,5 +53,4 @@ public class AirportTable extends JTable{
     public int getCurrentRow() {
         return currentRow;
     }
-
 }

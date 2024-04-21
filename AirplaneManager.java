@@ -1,5 +1,3 @@
-
-
 import java.io.*;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -101,11 +99,6 @@ public class AirplaneManager {
 
     public Airplane getAirplane(int index) {
         return this.airplanes.get(index);
-    }
-
-    public Vector<Airplane> search(String search) {
-        // use .contains() to search for the search string in the airplane data
-        return null;
     }
 
     public void save() {
