@@ -58,7 +58,7 @@ public class AirplaneManager {
         dialog.setLayout(null);
         dialog.setResizable(false);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dialog.setLocationRelativeTo(FlightPlanningSystemGUIV2.getWindows()[0]);
+        dialog.setLocationRelativeTo(FlightPlanningSystemGUI.getWindows()[0]);
 
         JLabel makeLabel = new JLabel("Make: " + airplane.getMake());
         makeLabel.setBounds(10, 10, 200, 20);

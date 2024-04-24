@@ -8,7 +8,7 @@ public class FlightPlanningSystem {
         AirplaneManager airplaneManager = new AirplaneManager();
         AirportManager airportManager = new AirportManager();
 
-        FlightPlanningSystemGUIV2 gui = new FlightPlanningSystemGUIV2(airplaneManager, airportManager);
+        FlightPlanningSystemGUI gui = new FlightPlanningSystemGUI(airplaneManager, airportManager);
         centerWindow(gui);
         gui.setVisible(true);
     }

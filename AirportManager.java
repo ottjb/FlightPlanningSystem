@@ -64,7 +64,7 @@ public class AirportManager {
         dialog.setLayout(null);
         dialog.setResizable(false);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dialog.setLocationRelativeTo(FlightPlanningSystemGUIV2.getWindows()[0]);
+        dialog.setLocationRelativeTo(FlightPlanningSystemGUI.getWindows()[0]);
 
         JLabel ICAOLabel = new JLabel("ICAO: " + airport.getICAOIdentifier());
         ICAOLabel.setBounds(10, 10, 200, 20);

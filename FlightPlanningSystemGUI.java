@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
-public class FlightPlanningSystemGUIV2 extends JFrame {
+public class FlightPlanningSystemGUI extends JFrame {
     private int screenHeight = 438;
     private int screenWidth = 615;
 
@@ -81,7 +81,7 @@ public class FlightPlanningSystemGUIV2 extends JFrame {
     JLabel destinationHeadingFourLabel;
     JLabel destinationHeadingFiveLabel;
 
-    public FlightPlanningSystemGUIV2(AirplaneManager airplaneManager, AirportManager airportManager) {
+    public FlightPlanningSystemGUI(AirplaneManager airplaneManager, AirportManager airportManager) {
 
         this.airplaneManager = airplaneManager;
         this.airportManager = airportManager;
